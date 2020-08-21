@@ -1,28 +1,64 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div>
+  <div>
+    <h1 class="title">TO-DO List</h1>  
+      <input 
+        type="text" 
+        placeholder="Create new task"
+        v-model="task"
+      >
+      <button @click="saveTask(task)" v-if="tasks.length <= 10">Save</button>
+    </div>
+    <div>
+      <div  
+        class="noActive"      
+        v-for="(item, index) in tasks" :key="index"
+        @click="item.status = !item.status"
+        :class="{ status: item.status }"
+      >
+        {{item.taskToDo}} 
+        <button @click="delTask(index)">Delete</button>
+      </div> 
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  export default {
+    name: "App",
+    data() {
+      return {        
+        task: "",
+        tasks: [
+          {taskToDo: 'FIRST TASK', status: false},
+          {taskToDo: 'SECOND TASK', status: false},
+          {taskToDo: 'THIRHT TASK', status: false},
+        ]                   
+      }
+    },
+    methods: {
+      saveTask(task) { 
+        let a = { taskToDo: task, status: false}      
+        this.tasks.push(a);
+        return this.tasks;
+      },
+      delTask(index){
+          this.tasks.splice(index, 1);
+          //delete this.tasks[index];
+          return this.tasks;
+      }
+    }
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.title {
+  color: red;
+}
+.noActive{
+  color: red;
+}
+.status{
+  color: green;  
 }
 </style>
