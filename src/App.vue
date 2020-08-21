@@ -40,12 +40,12 @@
       saveTask(task) { 
         let a = { taskToDo: task, status: false}      
         this.tasks.push(a);
-        return this.tasks;
+        //return this.tasks;
       },
       delTask(index){
           this.tasks.splice(index, 1);
           //delete this.tasks[index];
-          return this.tasks;
+          //return this.tasks;
       }
     }
   }
