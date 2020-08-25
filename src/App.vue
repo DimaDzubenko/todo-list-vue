@@ -1,64 +1,61 @@
 <template>
-<div>
-  <div>
-    <h1 class="title">TO-DO List</h1>  
-      <input 
-        type="text" 
-        placeholder="Create new task"
-        v-model="task"
-      >
-      <button @click="saveTask(task)" v-if="tasks.length <= 10">Save</button>
-    </div>
-    <div>
-      <div  
-        class="noActive"      
-        v-for="(item, index) in tasks" :key="index"
-        @click="item.status = !item.status"
-        :class="{ status: item.status }"
-      >
-        {{item.taskToDo}} 
-        <button @click="delTask(index)">Delete</button>
-      </div> 
-    </div>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col-md-auto">
+        <AddTodo
+          @addTask="addTodoTask($event)"
+          :todoTasks="todoTasks"
+        />
+        <TodoList 
+          :todoTasks="todoTasks"    
+          @delTodoTaskIndex="deleteTodoTask($event)"      
+        />  
+      </div>  
+    </div>        
   </div>
 </template>
 
 <script>
+  import AddTodo from "@/components/AddTodo.vue";
+  import TodoList from "@/components/TodoList.vue";
+  
+
   export default {
     name: "App",
+
+    components:{
+      // равнозначная запись регистрации компонентов
+      AddTodo: AddTodo,
+      TodoList     
+    },
+
     data() {
-      return {        
-        task: "",
-        tasks: [
-          {taskToDo: 'FIRST TASK', status: false},
-          {taskToDo: 'SECOND TASK', status: false},
-          {taskToDo: 'THIRHT TASK', status: false},
-        ]                   
+      return{ 
+        todoTasks: [
+                {todo: 'Task 1', status: false},
+                {todo: 'Task 2', status: false},
+                {todo: 'Task 3', status: false},
+                {todo: 'Task 4', status: false},
+                {todo: 'Task 5', status: false}
+            ]
       }
     },
-    methods: {
-      saveTask(task) { 
-        let a = { taskToDo: task, status: false}      
-        this.tasks.push(a);
-        //return this.tasks;
+
+    methods:{
+      addTodoTask(event){
+        let obj = {todo: event, status: false}
+        this.todoTasks.push(obj);
       },
-      delTask(index){
-          this.tasks.splice(index, 1);
-          //delete this.tasks[index];
-          //return this.tasks;
+
+      deleteTodoTask(event){
+        console.log(event);
+        this.todoTasks.splice(event, 1);
       }
     }
   }
 </script>
 
 <style>
-.title {
-  color: red;
-}
-.noActive{
-  color: red;
-}
-.status{
-  color: green;  
-}
+
+
 </style>
